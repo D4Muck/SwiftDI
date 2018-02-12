@@ -1,0 +1,22 @@
+<% let order = calculateOrder() -%>
+class Container {
+<% for type in order { -%>
+    private let <%=firstLetterLowercased(type.typeName)%>Factory: <%=type.typeName%>Factory
+<% } -%>
+
+    init() {
+    <% for type in order { -%>
+    <%=firstLetterLowercased(type.typeName)%>Factory = <%=type.typeName%>Factory(
+    <% for dep in type.dependencies.enumerated() { -%>
+        <%=firstLetterLowercased(dep.element.typeName)%>Factory: <%=firstLetterLowercased(dep.element.typeName)%>Factory<% if dep.offset != type.dependencies.count - 1 { -%>,<% } %>
+    <% } -%> 
+        ) 
+    <% } -%> 
+    }
+<% for type in order { -%>
+
+    func <%=firstLetterLowercased(type.typeName)%>() -> <%=type.typeName%> {
+        return self.<%=firstLetterLowercased(type.typeName)%>Factory.get()
+    }
+<% } -%>
+}

@@ -1,0 +1,49 @@
+import SwiftDIRuntime
+#if os(iOS)
+import UIKit
+#endif
+
+<% for factory in getAllFactories() { -%>
+
+class <%= factory.typeName %>Factory: Provider<<%= factory.typeName %>> {
+
+<% for d in factory.dependencies { -%>
+    private let <%=d.lowercasedDependencyTypeName%>Factory: <%=d.dependencyTypeName%>Factory 
+<% } -%>
+
+<% if factory.dependencies.count != 0 { %> 
+    init(
+    <% for d in factory.dependencies.enumerated() { -%>
+        <%= d.element.lowercasedDependencyTypeName %>Factory: <%= d.element.dependencyTypeName %>Factory<% if d.offset != factory.dependencies.count - 1 { -%>,<% } -%> 
+    <% } %>) {
+<% for d in factory.dependencies { -%>
+        self.<%= d.lowercasedDependencyTypeName %>Factory = <%= d.lowercasedDependencyTypeName %>Factory
+<% } -%>        
+    }
+<%}%>
+
+    override func get() -> <%= factory.typeName %> {
+        let instance: <%= factory.typeName %> 
+        
+        <%  switch factory.creationType {
+        case .initializer: %>
+        instance = <%= factory.typeName %>(
+        <% for d in factory.dependencies.enumerated() { -%>
+        <%= d.element.name %>: <%= d.element.lowercasedDependencyTypeName %>Factory<% if !d.element.isProvider { %>.get()<%}%><% if d.offset != factory.dependencies.count - 1 { -%>,<% } _%> 
+        <% } %>)
+        <% case .storyboard(let name, let id): %>
+        instance = UIStoryboard(name: "<%=name%>", bundle: nil)
+        .instantiateViewController(withIdentifier: "<%=id%>")
+        as! <%= factory.typeName %>
+        <% } %>
+
+        <% for d in factory.dependencies.filter({ $0.injectionType == .property }) { %>
+        instance.<%=d.name%> = <%=d.lowercasedDependencyTypeName%>Factory<% if !d.isProvider { %>.get()<%}%>
+        <% } %>
+
+        return instance
+    }
+
+}
+
+<% } -%>
