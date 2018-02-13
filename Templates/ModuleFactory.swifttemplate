@@ -1,0 +1,19 @@
+import SwiftDIRuntime
+
+<% for module in getAllModules() { -%>
+
+class <%= module.name %>Factory: Provider<<%= module.name %>> {
+
+    private let <%=module.lowercasedName%>: <%=module.name%>
+
+    init(<%= module.lowercasedName %>: <%= module.name %>) {
+        self.<%= module.lowercasedName %> = <%= module.lowercasedName %>
+
+    }
+
+    override func get() -> <%= module.name %> {
+        return <%=module.lowercasedName%>
+    }
+}
+
+<% } -%>

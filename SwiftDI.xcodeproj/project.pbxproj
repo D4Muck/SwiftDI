@@ -8,9 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		729F9DD32032121F00DB660F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DD22032121F00DB660F /* main.swift */; };
-		729F9DDD203212E500DB660F /* Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDA203212E500DB660F /* Container.swift */; };
+		729F9DDD203212E500DB660F /* 01_Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDA203212E500DB660F /* 01_Container.swift */; };
 		729F9DDE203212E500DB660F /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDB203212E500DB660F /* Factory.swift */; };
-		729F9DDF203212E500DB660F /* Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDC203212E500DB660F /* Shared.swift */; };
+		729F9DDF203212E500DB660F /* 00_Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDC203212E500DB660F /* 00_Shared.swift */; };
 		729F9DE12032132D00DB660F /* FrameworkClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DE02032132D00DB660F /* FrameworkClasses.swift */; };
 		729F9DEB2032140E00DB660F /* SwiftDIRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 729F9DE92032140E00DB660F /* SwiftDIRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		729F9DF02032142600DB660F /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DEF2032142600DB660F /* Provider.swift */; };
@@ -29,11 +29,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5A6663C7972BCDAE73F95FE9 /* ModuleFactory.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = file.swifttemplate; path = ModuleFactory.swifttemplate; sourceTree = "<group>"; };
 		729F9DCF2032121F00DB660F /* SwiftDI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftDI; sourceTree = BUILT_PRODUCTS_DIR; };
 		729F9DD22032121F00DB660F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		729F9DDA203212E500DB660F /* Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Container.swift; sourceTree = "<group>"; };
+		729F9DDA203212E500DB660F /* 01_Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 01_Container.swift; sourceTree = "<group>"; };
 		729F9DDB203212E500DB660F /* Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
-		729F9DDC203212E500DB660F /* Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shared.swift; sourceTree = "<group>"; };
+		729F9DDC203212E500DB660F /* 00_Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 00_Shared.swift; sourceTree = "<group>"; };
 		729F9DE02032132D00DB660F /* FrameworkClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkClasses.swift; sourceTree = "<group>"; };
 		729F9DE72032140E00DB660F /* SwiftDIRuntime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDIRuntime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		729F9DE92032140E00DB660F /* SwiftDIRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftDIRuntime.h; sourceTree = "<group>"; };
@@ -94,8 +95,8 @@
 		729F9DD9203212B200DB660F /* FilesToInclude */ = {
 			isa = PBXGroup;
 			children = (
-				729F9DDA203212E500DB660F /* Container.swift */,
-				729F9DDC203212E500DB660F /* Shared.swift */,
+				729F9DDC203212E500DB660F /* 00_Shared.swift */,
+				729F9DDA203212E500DB660F /* 01_Container.swift */,
 			);
 			path = FilesToInclude;
 			sourceTree = "<group>";
@@ -115,6 +116,7 @@
 			children = (
 				729F9E022032163B00DB660F /* Container.swifttemplate */,
 				729F9E032032163B00DB660F /* Factory.swifttemplate */,
+				5A6663C7972BCDAE73F95FE9 /* ModuleFactory.swifttemplate */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -224,8 +226,8 @@
 			files = (
 				729F9DD32032121F00DB660F /* main.swift in Sources */,
 				729F9DE12032132D00DB660F /* FrameworkClasses.swift in Sources */,
-				729F9DDD203212E500DB660F /* Container.swift in Sources */,
-				729F9DDF203212E500DB660F /* Shared.swift in Sources */,
+				729F9DDD203212E500DB660F /* 01_Container.swift in Sources */,
+				729F9DDF203212E500DB660F /* 00_Shared.swift in Sources */,
 				729F9DDE203212E500DB660F /* Factory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

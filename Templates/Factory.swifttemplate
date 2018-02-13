@@ -35,6 +35,9 @@ class <%= factory.typeName %>Factory: Provider<<%= factory.typeName %>> {
         instance = UIStoryboard(name: "<%=name%>", bundle: nil)
         .instantiateViewController(withIdentifier: "<%=id%>")
         as! <%= factory.typeName %>
+        <% case .module: %>
+        <% let d = factory.dependencies.first! %>
+        return <%=d.lowercasedDependencyTypeName%>Factory.get().<%=d.name%>()
         <% } %>
 
         <% for d in factory.dependencies.filter({ $0.injectionType == .property }) { %>

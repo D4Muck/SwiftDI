@@ -5,21 +5,27 @@
 
 import Foundation
 
-let types = All(all: [])
+let types = Types()
 
 struct Type {
     let initializers: [Method]
     let name: String
     let annotations = [String: NSObject]()
     let variables = [Variable]()
+    let methods = [Method]()
 }
 
-struct All {
-    let all: [Type]
+struct Types {
+    let all: [Type] = []
+    let classes: [Type] = []
+    let protocols: [Type] = []
 }
 
 struct Method {
     let parameters: [Parameter]
+    let annotations = [String: NSObject]()
+    let shortName: String
+    let returnTypeName: TypeName
 }
 
 struct Parameter {

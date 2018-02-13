@@ -18,6 +18,7 @@ struct Dependency: CustomStringConvertible {
     }
     let injectionType: InjectionType
     let isProvider: Bool
+    let isModule: Bool
 
     var description: String {
         return name.description + ", " + dependencyTypeName.description + ", " + isProvider.description
@@ -25,13 +26,20 @@ struct Dependency: CustomStringConvertible {
 }
 
 enum CreationType {
-    case initializer, storyboard(name: String, id: String)
+    case initializer, storyboard(name: String, id: String), module
 }
 
 struct Factory {
     let typeName: String
     let creationType: CreationType
     let dependencies: [Dependency]
+}
+
+struct Module {
+    let name: String
+    var lowercasedName: String {
+        return name.prefix(1).lowercased() + name.dropFirst()
+    }
 }
 
 class DependencyResolver {
@@ -50,7 +58,9 @@ class DependencyResolver {
         return Dependency(name: name,
                 dependencyTypeName: cleanedTypeName,
                 injectionType: injectionType,
-                isProvider: isProvider)
+                isProvider: isProvider,
+                isModule: false
+        )
     }
 
     func extractGenericTypeName(from text: String) -> String {
@@ -117,25 +127,72 @@ class CompositeDependencyResolver: DependencyResolver {
     }
 }
 
-func getAllFactories() -> [Factory] {
-    return types.all.filter { $0.annotations.keys.contains("Injectable") }.map { type -> Factory in
-        let creationType: CreationType
-        let dependencyResolver: DependencyResolver
-        if type.annotations.keys.contains("FromStoryboard") {
-            creationType = .storyboard(
-                    name: type.annotations["StoryboardName"] as! String,
-                    id: type.annotations["StoryboardIdentifier"] as! String
-            )
-            dependencyResolver = PropertyDependencyResolver()
-        } else {
-            creationType = .initializer
-            dependencyResolver = CompositeDependencyResolver(
-                    resolvers: [
-                        InitializerDependencyResolver(),
-                        PropertyDependencyResolver()
-                    ]
-            )
+class FactoryResolver {
+
+    let types: Types
+
+    init(types: Types) {
+        self.types = types
+    }
+
+    func getFactories() -> [Factory] {
+        fatalError("Plz override me!")
+    }
+}
+
+class InjectableFactoryResolver: FactoryResolver {
+    override func getFactories() -> [Factory] {
+        return types.classes.filter { $0.annotations.keys.contains("Injectable") }.map { type -> Factory in
+            let creationType: CreationType
+            let dependencyResolver: DependencyResolver
+            if type.annotations.keys.contains("FromStoryboard") {
+                creationType = .storyboard(
+                        name: type.annotations["StoryboardName"] as! String,
+                        id: type.annotations["StoryboardIdentifier"] as! String
+                )
+                dependencyResolver = PropertyDependencyResolver()
+            } else {
+                creationType = .initializer
+                dependencyResolver = CompositeDependencyResolver(
+                        resolvers: [
+                            InitializerDependencyResolver(),
+                            PropertyDependencyResolver()
+                        ]
+                )
+            }
+            return Factory(typeName: type.name, creationType: creationType, dependencies: dependencyResolver.getDependencies(ofType: type))
         }
-        return Factory(typeName: type.name, creationType: creationType, dependencies: dependencyResolver.getDependencies(ofType: type))
+    }
+}
+
+class ModuleFactoryResolver: FactoryResolver {
+    override func getFactories() -> [Factory] {
+        return types.classes.filter { $0.annotations.keys.contains("Module") }.flatMap { type -> [Factory] in
+            return type.methods.filter { $0.annotations.keys.contains("Provides") }.map {
+                return Factory(
+                        typeName: $0.returnTypeName.name,
+                        creationType: .module,
+                        dependencies: [
+                            Dependency(name: $0.shortName,
+                                    dependencyTypeName: type.name,
+                                    injectionType: .initializer,
+                                    isProvider: false,
+                                    isModule: true
+                            )
+                        ]
+                )
+            }
+        }
+    }
+}
+
+func getAllFactories() -> [Factory] {
+    let resolvers = [InjectableFactoryResolver(types: types), ModuleFactoryResolver(types: types)]
+    return resolvers.flatMap { $0.getFactories() }
+}
+
+func getAllModules() -> [Module] {
+    return types.classes.filter { $0.annotations.keys.contains("Module") }.flatMap { type -> Module in
+        return Module(name: type.name)
     }
 }
