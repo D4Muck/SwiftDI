@@ -7,10 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A66612AD7B058B42C42785C /* 02_Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A666D268241D4ACAD8DEAFB /* 02_Factory.swift */; };
+		5A66632BA054DB5F7F82AF41 /* 01_Module.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6666C3C4E6A2AD1F522EDA /* 01_Module.swift */; };
+		5A66684411DAB069F0E6F602 /* 20_Dependency_Resolver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */; };
+		5A6668775A11F8D143321139 /* 29_Dependencies_From_Injectables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */; };
+		5A666AEC0FEDC7CFA570F356 /* 50_Factory_Calculations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A666120D69A972AA7A909C6 /* 50_Factory_Calculations.swift */; };
+		5A666E46B290DAAE8034E0E9 /* 19_Dependencies_From_Modules.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */; };
+		5A666F1A07C9BEB435A10B56 /* 40_Dependencies_From_All.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */; };
+		5A666F5DB9AD023F4684A3F9 /* 00_Dependency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A666BF493D3392C7F2EC50B /* 00_Dependency.swift */; };
 		729F9DD32032121F00DB660F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DD22032121F00DB660F /* main.swift */; };
-		729F9DDD203212E500DB660F /* 01_Container.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDA203212E500DB660F /* 01_Container.swift */; };
 		729F9DDE203212E500DB660F /* Factory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDB203212E500DB660F /* Factory.swift */; };
-		729F9DDF203212E500DB660F /* 00_Shared.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DDC203212E500DB660F /* 00_Shared.swift */; };
 		729F9DE12032132D00DB660F /* FrameworkClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DE02032132D00DB660F /* FrameworkClasses.swift */; };
 		729F9DEB2032140E00DB660F /* SwiftDIRuntime.h in Headers */ = {isa = PBXBuildFile; fileRef = 729F9DE92032140E00DB660F /* SwiftDIRuntime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		729F9DF02032142600DB660F /* Provider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 729F9DEF2032142600DB660F /* Provider.swift */; };
@@ -29,18 +35,27 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5A666120D69A972AA7A909C6 /* 50_Factory_Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 50_Factory_Calculations.swift; sourceTree = "<group>"; };
+		5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 29_Dependencies_From_Injectables.swift; sourceTree = "<group>"; };
+		5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 19_Dependencies_From_Modules.swift; sourceTree = "<group>"; };
 		5A6663C7972BCDAE73F95FE9 /* ModuleFactory.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = file.swifttemplate; path = ModuleFactory.swifttemplate; sourceTree = "<group>"; };
+		5A6666C3C4E6A2AD1F522EDA /* 01_Module.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 01_Module.swift; sourceTree = "<group>"; };
+		5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 40_Dependencies_From_All.swift; sourceTree = "<group>"; };
+		5A666A8C5144AC01A29A2FBD /* 90_Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 90_Shared.swift; sourceTree = "<group>"; };
+		5A666BF493D3392C7F2EC50B /* 00_Dependency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 00_Dependency.swift; sourceTree = "<group>"; };
+		5A666CC2ECBD131025F2732F /* 91_Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 91_Container.swift; sourceTree = "<group>"; };
+		5A666D268241D4ACAD8DEAFB /* 02_Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 02_Factory.swift; sourceTree = "<group>"; };
+		5A666DE5AFBF9D815B3F0F8A /* Factory.swifttemplate.old */ = {isa = PBXFileReference; lastKnownFileType = file.old; path = Factory.swifttemplate.old; sourceTree = "<group>"; };
+		5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 20_Dependency_Resolver.swift; sourceTree = "<group>"; };
 		729F9DCF2032121F00DB660F /* SwiftDI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftDI; sourceTree = BUILT_PRODUCTS_DIR; };
 		729F9DD22032121F00DB660F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		729F9DDA203212E500DB660F /* 01_Container.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 01_Container.swift; sourceTree = "<group>"; };
 		729F9DDB203212E500DB660F /* Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Factory.swift; sourceTree = "<group>"; };
-		729F9DDC203212E500DB660F /* 00_Shared.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 00_Shared.swift; sourceTree = "<group>"; };
 		729F9DE02032132D00DB660F /* FrameworkClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameworkClasses.swift; sourceTree = "<group>"; };
 		729F9DE72032140E00DB660F /* SwiftDIRuntime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftDIRuntime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		729F9DE92032140E00DB660F /* SwiftDIRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftDIRuntime.h; sourceTree = "<group>"; };
 		729F9DEA2032140E00DB660F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		729F9DEF2032142600DB660F /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
-		729F9E022032163B00DB660F /* Container.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Container.swifttemplate; sourceTree = "<group>"; };
+		729F9E022032163B00DB660F /* Container.swifttemplate.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.swifttemplate; path = Container.swifttemplate.old; sourceTree = "<group>"; };
 		729F9E032032163B00DB660F /* Factory.swifttemplate */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Factory.swifttemplate; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,6 +103,8 @@
 				729F9DE02032132D00DB660F /* FrameworkClasses.swift */,
 				729F9DD22032121F00DB660F /* main.swift */,
 				729F9DD9203212B200DB660F /* FilesToInclude */,
+				5A666A8C5144AC01A29A2FBD /* 90_Shared.swift */,
+				5A666CC2ECBD131025F2732F /* 91_Container.swift */,
 			);
 			path = SwiftDI;
 			sourceTree = "<group>";
@@ -95,8 +112,14 @@
 		729F9DD9203212B200DB660F /* FilesToInclude */ = {
 			isa = PBXGroup;
 			children = (
-				729F9DDC203212E500DB660F /* 00_Shared.swift */,
-				729F9DDA203212E500DB660F /* 01_Container.swift */,
+				5A666BF493D3392C7F2EC50B /* 00_Dependency.swift */,
+				5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */,
+				5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */,
+				5A6666C3C4E6A2AD1F522EDA /* 01_Module.swift */,
+				5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */,
+				5A666D268241D4ACAD8DEAFB /* 02_Factory.swift */,
+				5A666120D69A972AA7A909C6 /* 50_Factory_Calculations.swift */,
+				5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */,
 			);
 			path = FilesToInclude;
 			sourceTree = "<group>";
@@ -114,9 +137,10 @@
 		729F9E012032163B00DB660F /* Templates */ = {
 			isa = PBXGroup;
 			children = (
-				729F9E022032163B00DB660F /* Container.swifttemplate */,
+				729F9E022032163B00DB660F /* Container.swifttemplate.old */,
 				729F9E032032163B00DB660F /* Factory.swifttemplate */,
 				5A6663C7972BCDAE73F95FE9 /* ModuleFactory.swifttemplate */,
+				5A666DE5AFBF9D815B3F0F8A /* Factory.swifttemplate.old */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -226,9 +250,15 @@
 			files = (
 				729F9DD32032121F00DB660F /* main.swift in Sources */,
 				729F9DE12032132D00DB660F /* FrameworkClasses.swift in Sources */,
-				729F9DDD203212E500DB660F /* 01_Container.swift in Sources */,
-				729F9DDF203212E500DB660F /* 00_Shared.swift in Sources */,
 				729F9DDE203212E500DB660F /* Factory.swift in Sources */,
+				5A666F5DB9AD023F4684A3F9 /* 00_Dependency.swift in Sources */,
+				5A666E46B290DAAE8034E0E9 /* 19_Dependencies_From_Modules.swift in Sources */,
+				5A6668775A11F8D143321139 /* 29_Dependencies_From_Injectables.swift in Sources */,
+				5A66632BA054DB5F7F82AF41 /* 01_Module.swift in Sources */,
+				5A666F1A07C9BEB435A10B56 /* 40_Dependencies_From_All.swift in Sources */,
+				5A66612AD7B058B42C42785C /* 02_Factory.swift in Sources */,
+				5A666AEC0FEDC7CFA570F356 /* 50_Factory_Calculations.swift in Sources */,
+				5A66684411DAB069F0E6F602 /* 20_Dependency_Resolver.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

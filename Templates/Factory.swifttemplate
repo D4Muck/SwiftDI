@@ -1,52 +1,37 @@
+<% for (module, factories) in getAllFactoriesSeparatedByModule() { -%>
+// sourcery:file:<%=module%>-Factory
 import SwiftDIRuntime
 #if os(iOS)
 import UIKit
 #endif
 
-<% for factory in getAllFactories() { -%>
-
-class <%= factory.typeName %>Factory: Provider<<%= factory.typeName %>> {
-
-<% for d in factory.dependencies { -%>
-    private let <%=d.lowercasedDependencyTypeName%>Factory: <%=d.dependencyTypeName%>Factory 
+<% for moduleToImport in getModulesToImportForFile(withModule: module, containingFactories: factories) { -%>
+import <%=moduleToImport-%>
 <% } -%>
 
-<% if factory.dependencies.count != 0 { %> 
+<% for factory in factories { -%>
+
+class <%=factory.name%>: Provider<<%=factory.providedTypeName%>> {
+
+<% for property in factory.properties { -%>
+    private let <%=property.name%>: <%=property.typeName%>
+<% } -%>
+
     init(
-    <% for d in factory.dependencies.enumerated() { -%>
-        <%= d.element.lowercasedDependencyTypeName %>Factory: <%= d.element.dependencyTypeName %>Factory<% if d.offset != factory.dependencies.count - 1 { -%>,<% } -%> 
-    <% } %>) {
-<% for d in factory.dependencies { -%>
-        self.<%= d.lowercasedDependencyTypeName %>Factory = <%= d.lowercasedDependencyTypeName %>Factory
-<% } -%>        
+        <%=factory.initializerParams%>
+    ) {
+    <% for property in factory.properties { -%>
+    self.<%=property.name%> = <%=property.name%>
+    <% } _-%>
     }
-<%}%>
 
-    override func get() -> <%= factory.typeName %> {
-        let instance: <%= factory.typeName %> 
-        
-        <%  switch factory.creationType {
-        case .initializer: %>
-        instance = <%= factory.typeName %>(
-        <% for d in factory.dependencies.enumerated() { -%>
-        <%= d.element.name %>: <%= d.element.lowercasedDependencyTypeName %>Factory<% if !d.element.isProvider { %>.get()<%}%><% if d.offset != factory.dependencies.count - 1 { -%>,<% } _%> 
-        <% } %>)
-        <% case .storyboard(let name, let id): %>
-        instance = UIStoryboard(name: "<%=name%>", bundle: nil)
-        .instantiateViewController(withIdentifier: "<%=id%>")
-        as! <%= factory.typeName %>
-        <% case .module: %>
-        <% let d = factory.dependencies.first! %>
-        return <%=d.lowercasedDependencyTypeName%>Factory.get().<%=d.name%>()
-        <% } %>
-
-        <% for d in factory.dependencies.filter({ $0.injectionType == .property }) { %>
-        instance.<%=d.name%> = <%=d.lowercasedDependencyTypeName%>Factory<% if !d.isProvider { %>.get()<%}%>
-        <% } %>
-
+    func get() -> <%=factory.providedTypeName%> {
+        let instance: <%=factory.providedTypeName%>
+        <%_=factory.instantiation%>
         return instance
     }
 
 }
-
+<% } -%>
+// sourcery:end
 <% } -%>

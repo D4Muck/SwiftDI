@@ -1,6 +1,8 @@
+<% for (moduleName, modules) in getAllModulesSeparatedByModule() { -%>
+// sourcery:file:<%=moduleName%>-ModuleFactory
 import SwiftDIRuntime
 
-<% for module in getAllModules() { -%>
+<% for module in modules { -%>
 
 class <%= module.name %>Factory: Provider<<%= module.name %>> {
 
@@ -16,4 +18,6 @@ class <%= module.name %>Factory: Provider<<%= module.name %>> {
     }
 }
 
+<% } -%>
+// sourcery:end
 <% } -%>

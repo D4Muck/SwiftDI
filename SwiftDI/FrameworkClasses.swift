@@ -8,11 +8,14 @@ import Foundation
 let types = Types()
 
 struct Type {
+    let module: String?
     let initializers: [Method]
     let name: String
     let annotations = [String: NSObject]()
     let variables = [Variable]()
     let methods = [Method]()
+    let kind: String
+    let implements = [String: Type]()
 }
 
 struct Types {
@@ -26,6 +29,7 @@ struct Method {
     let annotations = [String: NSObject]()
     let shortName: String
     let returnTypeName: TypeName
+    let returnType: Type?
 }
 
 struct Parameter {
@@ -41,5 +45,6 @@ struct TypeName {
 struct Variable {
     let name: String
     let typeName: TypeName
+    let type: Type?
     let annotations = [String: NSObject]()
 }
