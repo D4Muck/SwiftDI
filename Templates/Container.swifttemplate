@@ -1,0 +1,29 @@
+<% for (module, components) in getAllComponentsSeparatedByModule() { -%>
+// sourcery:file:<%=module%>-Component
+import SwiftDIRuntime
+
+<% for component in components { -%>
+
+<%=component.modulesToImport%>
+
+class <%=component.name%>Impl: <%=component.name%> {
+
+    <%=component.properties%>
+
+    init(
+        <%=component.initializerParametersContent%>
+    ) {
+    <%_=component.initializerContent%>
+    }
+
+<% for method in component.methods { -%>
+    func <%=method.name%>() -> <%=method.typeName%> {
+        return self.<%=method.lowercasedTypeName%>Factory.get()
+    }
+<% } -%>
+
+}
+
+<% } -%>
+// sourcery:end
+<% } -%>

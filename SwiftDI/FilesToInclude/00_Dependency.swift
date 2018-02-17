@@ -10,6 +10,10 @@ struct Dependency {
     let dependencies: [DependencyDeclaration]
     let createdBy: CreationType
     let trait: Trait
+
+    var lowercasedTypeName: String {
+        return typeName.prefix(1).lowercased() + typeName.dropFirst()
+    }
 }
 
 struct DependencyDeclaration {

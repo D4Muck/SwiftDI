@@ -11,18 +11,21 @@ struct Module {
     }
 }
 
-func getAllModulesSeparatedByModule() -> [String: [Module]] {
+func getAllModules() -> [Module] {
     return types.classes.filter { $0.annotations.keys.contains("Module") }.flatMap { type -> Module in
-                return Module(name: type.name, module: type.module!)
-            }
-            .reduce(into: [String: [Module]]()) { dict, element in
-                var factories: [Module]
-                if let arr = dict[element.module] {
-                    factories = arr
-                } else {
-                    factories = [Module]()
-                }
-                factories.append(element)
-                dict[element.module] = factories
-            }
+        return Module(name: type.name, module: type.module!)
+    }
+}
+
+func getAllModulesSeparatedByModule() -> [String: [Module]] {
+    return getAllModules().reduce(into: [String: [Module]]()) { dict, element in
+        var factories: [Module]
+        if let arr = dict[element.module] {
+            factories = arr
+        } else {
+            factories = [Module]()
+        }
+        factories.append(element)
+        dict[element.module] = factories
+    }
 }

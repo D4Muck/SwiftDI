@@ -8,9 +8,11 @@ import Foundation
 class DependencyResolver {
 
     let types: Types
+    let implementingTypeCalculator: ImplementingTypeCalculator
 
     init(types: Types) {
         self.types = types
+        self.implementingTypeCalculator = ImplementingTypeCalculator(types: types)
     }
 
     func getDependencies(ofType: Type) -> [DependencyDeclaration] {
@@ -32,7 +34,7 @@ class DependencyResolver {
             cleanedDeclaredType = types.all.filter { $0.name == cleanedTypeName }.first
         }
 
-        let implementingType = getImplementingType(forType: cleanedDeclaredType)
+        let implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)
 
         let dependency = Dependency(
                 typeName: implementingType?.name ?? declaredTypeName,
@@ -53,14 +55,6 @@ class DependencyResolver {
                 declaredTypeName: cleanedTypeName,
                 declaredType: cleanedDeclaredType
         )
-    }
-
-    func getImplementingType(forType type: Type?) -> Type? {
-        guard type?.kind == "protocol" else { return type }
-        guard let implementingType = types.classes.filter({ $0.implements.keys.contains(type!.name) }).first else {
-            fatalError("No implementing type found!")
-        }
-        return implementingType
     }
 
     func extractGenericTypeName(from text: String) -> String {
