@@ -51,7 +51,6 @@
 		5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 40_Dependencies_From_All.swift; sourceTree = "<group>"; };
 		5A666BF493D3392C7F2EC50B /* 00_Dependency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 00_Dependency.swift; sourceTree = "<group>"; };
 		5A666D268241D4ACAD8DEAFB /* 02_Factory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 02_Factory.swift; sourceTree = "<group>"; };
-		5A666DE5AFBF9D815B3F0F8A /* Factory.swifttemplate.old */ = {isa = PBXFileReference; lastKnownFileType = file.old; path = Factory.swifttemplate.old; sourceTree = "<group>"; };
 		5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 20_Dependency_Resolver.swift; sourceTree = "<group>"; };
 		5A666F4A425077BE6EB219ED /* 70_Component.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 70_Component.swift; sourceTree = "<group>"; };
 		729F9DCF2032121F00DB660F /* SwiftDI */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = SwiftDI; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -117,14 +116,14 @@
 			isa = PBXGroup;
 			children = (
 				5A666BF493D3392C7F2EC50B /* 00_Dependency.swift */,
-				5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */,
-				5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */,
 				5A6666C3C4E6A2AD1F522EDA /* 01_Module.swift */,
-				5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */,
 				5A666D268241D4ACAD8DEAFB /* 02_Factory.swift */,
-				5A666120D69A972AA7A909C6 /* 50_Factory_Calculations.swift */,
-				5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */,
 				5A66642155D679CF4A6CF12B /* 10_Implementing_Type_Calculator.swift */,
+				5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */,
+				5A666E6B5D96B085C3B10032 /* 20_Dependency_Resolver.swift */,
+				5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */,
+				5A6667A4FB1A1B06F0C52F03 /* 40_Dependencies_From_All.swift */,
+				5A666120D69A972AA7A909C6 /* 50_Factory_Calculations.swift */,
 				5A6665C2D378920E008C6B5E /* 60_Dependency_Graph_Calculator.swift */,
 				5A666F4A425077BE6EB219ED /* 70_Component.swift */,
 				5A66619FC23512431DA34FD3 /* 71_Component_Calculations.swift */,
@@ -145,10 +144,9 @@
 		729F9E012032163B00DB660F /* Templates */ = {
 			isa = PBXGroup;
 			children = (
+				5A666350C01058158D6C36D8 /* Container.swifttemplate */,
 				729F9E032032163B00DB660F /* Factory.swifttemplate */,
 				5A6663C7972BCDAE73F95FE9 /* ModuleFactory.swifttemplate */,
-				5A666DE5AFBF9D815B3F0F8A /* Factory.swifttemplate.old */,
-				5A666350C01058158D6C36D8 /* Container.swifttemplate */,
 			);
 			path = Templates;
 			sourceTree = "<group>";
@@ -414,6 +412,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
@@ -441,6 +440,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;

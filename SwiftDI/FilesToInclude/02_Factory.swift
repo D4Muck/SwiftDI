@@ -15,6 +15,14 @@ class Factory {
         return dependency.module
     }
 
+    var dependencyCount: Int {
+        return dependency.dependencies.count
+    }
+
+    var visibility: String {
+        return dependency.type?.accessLevel ?? ""
+    }
+
     var name: String {
         return dependency.typeName + "Factory"
     }
@@ -43,9 +51,13 @@ class Factory {
                     as! \(providedTypeName)//
             """
         case .module(let moduleName, let methodName):
-            return "        instance = \(moduleName)Factory.get().\(methodName)()"
+            return "        instance = \(lowercasedString(moduleName))Factory.get().\(methodName)()"
         }
         return concatPropertyInjectionTo(toString: result)
+    }
+
+    func lowercasedString(_ string: String) -> String {
+        return string.prefix(1).lowercased() + string.dropFirst()
     }
 
     func concatPropertyInjectionTo(toString: String) -> String {

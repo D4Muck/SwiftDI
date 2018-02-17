@@ -16,6 +16,7 @@ struct Type {
     let methods = [Method]()
     let kind: String
     let implements = [String: Type]()
+    let accessLevel: String
 }
 
 struct Types {

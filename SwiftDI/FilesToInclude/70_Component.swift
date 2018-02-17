@@ -51,7 +51,7 @@ struct Component {
 
     func parametersForType(_ type: Dependency) -> String {
         return type.dependencies.map {
-            $0.name + ": " + $0.dependency.lowercasedTypeName + "Factory"
+            $0.dependency.lowercasedTypeName + "Factory" + ": " + $0.dependency.lowercasedTypeName + "Factory"
         }.joined(separator: ",\n            ")
     }
 }

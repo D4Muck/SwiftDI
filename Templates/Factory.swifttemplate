@@ -11,12 +11,14 @@ import <%=moduleToImport-%>
 
 <% for factory in factories { -%>
 
-class <%=factory.name%>: Provider<<%=factory.providedTypeName%>> {
+<%=factory.visibility%> class <%=factory.name%>: Provider<<%=factory.providedTypeName%>> {
 
 <% for property in factory.properties { -%>
     private let <%=property.name%>: <%=property.typeName%>
 <% } -%>
 
+
+<% if factory.dependencyCount > 0 { %>
     init(
         <%=factory.initializerParams%>
     ) {
@@ -24,8 +26,9 @@ class <%=factory.name%>: Provider<<%=factory.providedTypeName%>> {
     self.<%=property.name%> = <%=property.name%>
     <% } _-%>
     }
+<% } %>
 
-    func get() -> <%=factory.providedTypeName%> {
+    <%=factory.visibility%> override func get() -> <%=factory.providedTypeName%> {
         let instance: <%=factory.providedTypeName%>
         <%_=factory.instantiation%>
         return instance
