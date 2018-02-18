@@ -19,7 +19,7 @@ import <%=moduleToImport-%>
 
 
 <% if factory.dependencyCount > 0 { %>
-    init(
+    <%=factory.visibility%> init(
         <%=factory.initializerParams%>
     ) {
     <% for property in factory.properties { -%>
