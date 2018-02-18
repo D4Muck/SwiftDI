@@ -1,17 +1,20 @@
 #!/bin/bash
-SWIFT_FILE_PATH=Libs/SwiftDI/SwiftDI/FilesToInclude
-TEMPLATE_PATH=Libs/SwiftDI/Templates
+
+# set -x
+
+SWIFT_FILE_PATH=$SRCROOT/Libs/SwiftDI/SwiftDI/FilesToInclude
+TEMPLATE_PATH=$SRCROOT/Libs/SwiftDI/Templates
 TEMPLATE_OUTPUT_PATH=Templates-Built
 
 mkdir -p $TEMPLATE_OUTPUT_PATH
 
-for entry in "$TEMPLATE_PATH"/*
+for entry in $(find $TEMPLATE_PATH -name "*.swifttemplate" -type f)
 do
   OUTPUT_FILE=$TEMPLATE_OUTPUT_PATH/$(basename $entry)
 
   echo "<%" > $OUTPUT_FILE
 
-  for swiftfile in "$SWIFT_FILE_PATH"/*
+  for swiftfile in $(find $SWIFT_FILE_PATH -name "*.swift" -type f)
   do
     sed '/import /d' $swiftfile >> $OUTPUT_FILE
   done
@@ -20,4 +23,4 @@ do
   cat $entry >> $OUTPUT_FILE
 done
 
-Sourcery-0.10.1/bin/sourcery --verbose
+sourcery --verbose
