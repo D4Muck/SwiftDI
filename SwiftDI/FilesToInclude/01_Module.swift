@@ -6,14 +6,30 @@
 struct Module {
     let name: String
     let module: String
+    let type: Type?
+
+    init(name: String, module: String, type: Type?) {
+        self.name = name
+        self.module = module
+        self.type = type
+    }
+
+    init(name: String, module: String) {
+        self.init(name: name, module: module, type: nil)
+    }
+
     var lowercasedName: String {
         return name.prefix(1).lowercased() + name.dropFirst()
+    }
+
+    var accessLevel: String {
+        return type?.accessLevel ?? ""
     }
 }
 
 func getAllModules() -> [Module] {
     return types.classes.filter { $0.annotations.keys.contains("Module") }.flatMap { type -> Module in
-        return Module(name: type.name, module: type.module!)
+        return Module(name: type.name, module: type.module!, type: type)
     }
 }
 

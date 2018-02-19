@@ -12,7 +12,8 @@ func getDependenciesFromModules() -> [Dependency] {
                     module: type.module!,
                     dependencies: [getDependency(forType: type)],
                     createdBy: .module(moduleName: type.name, methodName: $0.shortName),
-                    trait: .normal
+                    trait: .normal,
+                    accessLevel: $0.accessLevel
             )
         }
     }

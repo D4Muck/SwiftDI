@@ -20,7 +20,7 @@ class Factory {
     }
 
     var visibility: String {
-        return dependency.type?.accessLevel ?? ""
+        return dependency.accessLevel
     }
 
     var name: String {

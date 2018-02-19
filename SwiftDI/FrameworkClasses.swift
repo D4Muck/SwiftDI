@@ -26,6 +26,7 @@ struct Types {
 }
 
 struct Method {
+    let accessLevel: String
     let parameters: [Parameter]
     let annotations = [String: NSObject]()
     let shortName: String
