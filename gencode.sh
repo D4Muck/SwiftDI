@@ -2,6 +2,10 @@
 
 # set -x
 
+if [[ -z "$SRCROOT" ]]; then
+    SRCROOT=.
+fi
+
 SWIFT_FILE_PATH=$SRCROOT/Libs/SwiftDI/SwiftDI/FilesToInclude
 TEMPLATE_PATH=$SRCROOT/Libs/SwiftDI/Templates
 TEMPLATE_OUTPUT_PATH=Templates-Built
