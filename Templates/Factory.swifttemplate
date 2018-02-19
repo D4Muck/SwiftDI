@@ -16,8 +16,7 @@ import <%=moduleToImport-%>
 <% for property in factory.properties { -%>
     private let <%=property.name%>: <%=property.typeName%>
 <% } -%>
-
-
+<%=factory.additionalContentInClass-%>
 <% if factory.dependencyCount > 0 { %>
     <%=factory.visibility%> init(
         <%=factory.initializerParams%>
@@ -30,7 +29,7 @@ import <%=moduleToImport-%>
 
     <%=factory.visibility%> override func get() -> <%=factory.providedTypeName%> {
         let instance: <%=factory.providedTypeName%>
-        <%_=factory.instantiation%>
+        <%_=factory.getMethodContent%>
         return instance
     }
 

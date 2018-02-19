@@ -9,27 +9,27 @@ func getDependenciesFromInjectables() -> [Dependency] {
         let dependencyResolver: DependencyResolver
         if type.annotations.keys.contains("FromStoryboard") {
             creationType = .storyboard(
-                    name: type.annotations["StoryboardName"] as! String,
-                    id: type.annotations["StoryboardIdentifier"] as! String
+                name: type.annotations["StoryboardName"] as! String,
+                id: type.annotations["StoryboardIdentifier"] as! String
             )
             dependencyResolver = PropertyDependencyResolver(types: types)
         } else {
             creationType = .initializer
             dependencyResolver = CompositeDependencyResolver(
-                    types: types,
-                    resolvers: [
-                        InitializerDependencyResolver(types: types),
-                        PropertyDependencyResolver(types: types)
-                    ]
+                types: types,
+                resolvers: [
+                    InitializerDependencyResolver(types: types),
+                    PropertyDependencyResolver(types: types)
+                ]
             )
         }
         return Dependency(
-                typeName: type.name,
-                type: type,
-                module: type.module!,
-                dependencies: dependencyResolver.getDependencies(ofType: type),
-                createdBy: creationType,
-                trait: .normal
+            typeName: type.name,
+            type: type,
+            module: type.module!,
+            dependencies: dependencyResolver.getDependencies(ofType: type),
+            createdBy: creationType,
+            trait: trait(fromAnnotations: type.annotations)
         )
     }
 }

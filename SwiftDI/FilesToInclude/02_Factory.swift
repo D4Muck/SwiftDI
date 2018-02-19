@@ -3,6 +3,8 @@
 // Copyright (c) 2018 Christoph Muck. All rights reserved.
 //
 
+import Foundation
+
 class Factory {
 
     init(dependency: Dependency) {
@@ -56,24 +58,53 @@ class Factory {
         return concatPropertyInjectionTo(toString: result)
     }
 
+    var getMethodContent: String {
+        switch dependency.trait {
+        case .normal:
+            return instantiation
+        case .singleton:
+            return "        instance = singletonInstance"
+        }
+    }
+
+    var additionalContentInClass: String {
+        switch dependency.trait {
+        case .singleton:
+            return """
+                private lazy var singletonInstance: \(providedTypeName) = {
+                    let \(instantiation.trimmingCharacters(in: .whitespaces))
+                    return instance
+                }()
+            """
+        default:
+            return ""
+        }
+    }
+
     func lowercasedString(_ string: String) -> String {
         return string.prefix(1).lowercased() + string.dropFirst()
     }
 
     func concatPropertyInjectionTo(toString: String) -> String {
         let propertyInjectedDeps = properties.filter { $0.dependency.injectMethod == .property }
-                .map {
-                    "instance." + $0.dependency.name + " = " + $0.instanceCreator
-                }.joined(separator: "\n        ")
-        return toString + "\n        " + propertyInjectedDeps
+
+        if (propertyInjectedDeps.count == 0) {
+            return toString
+        }
+
+        let propertyInjectors = propertyInjectedDeps.map {
+            "instance." + $0.dependency.name + " = " + $0.instanceCreator
+        }.joined(separator: "\n        ")
+
+        return toString + "\n        " + propertyInjectors
     }
 
     var inititializerCreationContent: String {
         return properties.filter { $0.dependency.injectMethod == .initializer }
-                .map {
-                    $0.dependency.name + ": " + $0.instanceCreator
-                }
-                .joined(separator: ",\n            ")
+            .map {
+                $0.dependency.name + ": " + $0.instanceCreator
+            }
+            .joined(separator: ",\n            ")
     }
 
     var initializerParams: String {
