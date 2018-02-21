@@ -26,7 +26,7 @@ func getDependenciesFromInjectables() -> [Dependency] {
         return Dependency(
             typeName: type.name,
             type: type,
-            module: type.module!,
+            module: type.module ?? "",
             dependencies: dependencyResolver.getDependencies(ofType: type),
             createdBy: creationType,
             trait: trait(fromAnnotations: type.annotations)

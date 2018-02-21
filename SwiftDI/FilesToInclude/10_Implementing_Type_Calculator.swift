@@ -14,8 +14,9 @@ class ImplementingTypeCalculator {
     }
 
     func getImplementingType(forType type: Type?) -> Type? {
-        guard type?.kind == "protocol" else { return type }
-        guard let implementingType = types.classes.filter({ $0.implements.keys.contains(type!.name) }).first else {
+        guard let type = type else { return nil }
+        guard type.kind == "protocol" else { return type }
+        guard let implementingType = types.classes.filter({ $0.implements.keys.contains(type.name) }).first else {
             fatalError("No implementing type found!")
         }
         return implementingType

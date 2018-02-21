@@ -25,7 +25,7 @@ func getDependency(forType type: Type) -> DependencyDeclaration {
         dependency: Dependency(
             typeName: type.name,
             type: type,
-            module: type.module!,
+            module: type.module ?? "",
             dependencies: [],
             createdBy: .initializer,
             trait: .normal),
