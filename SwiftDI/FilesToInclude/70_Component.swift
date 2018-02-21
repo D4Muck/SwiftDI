@@ -11,12 +11,17 @@ struct Component {
     let order: [Dependency]
     let methods: [ComponentMethod]
     let modules: [Module]
+    let subcomponents: [Component]
 
     var modulesToImport: String {
-        let allModules: [String] = Array(Set(modules.map { $0.module } + order.map { $0.module }))
+        let allModules: [String] = Array(unionModulesToImport(with: Set()))
         return allModules.filter { s in s.count != 0 && s != module }
             .map { "i" + "mport " + $0 }
             .joined(separator: "\n")
+    }
+
+    func unionModulesToImport(with set: Set<String>) -> Set<String> {
+        return set.union(Set(modules.map { $0.module } + order.map { $0.module }))
     }
 
     var initializerParametersContent: String {
@@ -49,10 +54,49 @@ struct Component {
         }).joined(separator: "\n")
     }
 
+    var renderedMethods: String {
+        return methods.map { method in
+            return """
+                func \(method.name)() -> \(method.typeName) {
+                    return self.\(method.lowercasedTypeName)Factory.get()
+                }
+            """
+        }.joined(separator: "\n")
+    }
+
     func parametersForType(_ type: Dependency) -> String {
         return type.dependencies.map {
             $0.dependency.lowercasedTypeName + "Factory" + ": " + $0.dependency.lowercasedTypeName + "Factory"
         }.joined(separator: ",\n            ")
+    }
+
+    var rendered: String {
+        // @formatter:off
+        return """
+        class \(name)Impl: \(name) {
+
+            \(properties)
+
+            init(
+                \(initializerParametersContent)
+            ) {
+        \(initializerContent)
+            }
+
+        \(renderedMethods)
+
+
+        \(renderedSubcomponents)
+        }
+        """
+        // @formatter:on
+    }
+
+    var renderedSubcomponents: String {
+        return subcomponents.map {
+            "    " + $0.rendered.split(separator: "\n", omittingEmptySubsequences: false)
+                .joined(separator: "\n    ")
+        }.joined(separator: "\n")
     }
 }
 

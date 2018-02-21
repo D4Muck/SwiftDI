@@ -6,23 +6,7 @@ import SwiftDIRuntime
 
 <%=component.modulesToImport%>
 
-class <%=component.name%>Impl: <%=component.name%> {
-
-    <%=component.properties%>
-
-    init(
-        <%=component.initializerParametersContent%>
-    ) {
-    <%_=component.initializerContent%>
-    }
-
-<% for method in component.methods { -%>
-    func <%=method.name%>() -> <%=method.typeName%> {
-        return self.<%=method.lowercasedTypeName%>Factory.get()
-    }
-<% } -%>
-
-}
+<%=component.rendered%>
 
 <% } -%>
 // sourcery:end
