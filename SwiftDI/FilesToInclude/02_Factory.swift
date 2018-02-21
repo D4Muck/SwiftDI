@@ -121,11 +121,11 @@ class DependencyProperty {
     let dependency: DependencyDeclaration
 
     var name: String {
-        return typeName.prefix(1).lowercased() + typeName.dropFirst()
+        return dependency.dependency.typeName.prefix(1).lowercased() + dependency.dependency.typeName.dropFirst() + "Factory"
     }
 
     var typeName: String {
-        return dependency.dependency.typeName + "Factory"
+        return "Provider<" + dependency.dependency.typeName + ">"
     }
 
     var instanceCreator: String {
