@@ -20,10 +20,10 @@ class DependencyResolver {
     }
 
     func createDependency(
-            name: String,
-            declaredTypeName: String,
-            declaredType: Type?,
-            injectionMethod: InjectMethod
+        name: String,
+        declaredTypeName: String,
+        declaredType: Type?,
+        injectionMethod: InjectMethod
     ) -> DependencyDeclaration {
         var cleanedTypeName = removeLastCharIfNeeded(declaredTypeName)
         let isProvider = cleanedTypeName.starts(with: "Provider<")
@@ -37,23 +37,23 @@ class DependencyResolver {
         let implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)
 
         let dependency = Dependency(
-                typeName: implementingType?.name ?? declaredTypeName,
-                type: implementingType,
-                module: implementingType?.module ?? "",
+            typeName: implementingType?.name ?? declaredTypeName,
+            type: implementingType,
+            module: implementingType?.module ?? "",
 
-                //Don't about last three when generating factories
-                dependencies: [],
-                createdBy: .initializer,
-                trait: .normal
+            //Don't about last three when generating factories
+            dependencies: [],
+            createdBy: .initializer,
+            trait: .normal
         )
 
         return DependencyDeclaration(
-                name: name,
-                dependency: dependency,
-                injectMethod: injectionMethod,
-                isProvider: isProvider,
-                declaredTypeName: cleanedTypeName,
-                declaredType: cleanedDeclaredType
+            name: name,
+            dependency: dependency,
+            injectMethod: injectionMethod,
+            isProvider: isProvider,
+            declaredTypeName: cleanedTypeName,
+            declaredType: cleanedDeclaredType
         )
     }
 
@@ -102,9 +102,9 @@ class InitializerDependencyResolver: DependencyResolver {
 class PropertyDependencyResolver: DependencyResolver {
     override func getDependencies(ofType type: Type) -> [DependencyDeclaration] {
         return type.variables.filter { $0.annotations.keys.contains("Inject") }
-                .map {
-                    createDependency(name: $0.name, declaredTypeName: $0.typeName.name, declaredType: $0.type, injectionMethod: .property)
-                }
+            .map {
+                createDependency(name: $0.name, declaredTypeName: $0.typeName.name, declaredType: $0.type, injectionMethod: .property)
+            }
     }
 }
 

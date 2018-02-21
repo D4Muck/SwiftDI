@@ -15,8 +15,8 @@ struct Component {
     var modulesToImport: String {
         let allModules: [String] = Array(Set(modules.map { $0.module } + order.map { $0.module }))
         return allModules.filter { s in s.count != 0 && s != module }
-                .map { "i" + "mport " + $0 }
-                .joined(separator: "\n")
+            .map { "i" + "mport " + $0 }
+            .joined(separator: "\n")
     }
 
     var initializerParametersContent: String {
@@ -25,8 +25,8 @@ struct Component {
 
     var properties: String {
         return (modules.map { "private let " + $0.lowercasedName + "Factory" + ": " + $0.name + "Factory" }
-                + order.map { "private let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
-                .joined(separator: "\n    ")
+            + order.map { "private let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
+            .joined(separator: "\n    ")
     }
 
     var initializerContent: String {

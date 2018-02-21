@@ -91,7 +91,7 @@ func calculateDependencyOrder(forTypeNames requiredTypes: [String]) -> ([Depende
 
     let allModules = getAllModules()
     let modules = order
-            .filter { node in !allDependencies.contains(where: { $0.typeName == node.id }) }
-            .map { node in allModules.first(where: { $0.name == node.id })! }
+        .filter { node in !allDependencies.contains(where: { $0.typeName == node.id }) }
+        .map { node in allModules.first(where: { $0.name == node.id })! }
     return (dependencyOrder, modules)
 }
