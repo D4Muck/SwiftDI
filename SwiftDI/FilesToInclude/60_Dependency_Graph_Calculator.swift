@@ -68,8 +68,8 @@ func calculateInstantiationOrder(fromGraph: [String: Node]) -> [Node] {
     return order
 }
 
-func calculateDependencyOrder(forTypeNames requiredTypes: [String]) -> ([Dependency], [Module]) {
-    let allDependencies = getAllDependencies()
+func calculateDependencyOrder(forTypeNames requiredTypes: [String], andIncludedModules includedModules: [Module]) -> [Dependency] {
+    let allDependencies = getDependenciesFromInjectables() + includedModules.flatMap { $0.dependencies }
 
     var requiredDependencies = [Dependency]()
     var initialDependencies = allDependencies.filter { requiredTypes.contains($0.typeName) }
@@ -88,10 +88,5 @@ func calculateDependencyOrder(forTypeNames requiredTypes: [String]) -> ([Depende
     let order = calculateInstantiationOrder(fromGraph: graph)
 
     let dependencyOrder = order.map { node in allDependencies.first(where: { $0.typeName == node.id }) }.flatMap { $0 }
-
-    let allModules = getAllModules()
-    let modules = order
-        .filter { node in !allDependencies.contains(where: { $0.typeName == node.id }) }
-        .map { node in allModules.first(where: { $0.name == node.id })! }
-    return (dependencyOrder, modules)
+    return dependencyOrder
 }

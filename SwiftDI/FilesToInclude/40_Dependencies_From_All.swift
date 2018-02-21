@@ -4,5 +4,5 @@
 //
 
 func getAllDependencies() -> [Dependency] {
-    return getDependenciesFromModules() + getDependenciesFromInjectables()
+    return getDependenciesFromInjectables() + getAllModules().flatMap { $0.dependencies }
 }

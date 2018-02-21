@@ -7,15 +7,17 @@ struct Module {
     let name: String
     let module: String
     let type: Type?
+    let dependencies: [Dependency]
 
-    init(name: String, module: String, type: Type?) {
+    init(name: String, module: String, dependencies: [Dependency], type: Type?) {
         self.name = name
         self.module = module
         self.type = type
+        self.dependencies = dependencies
     }
 
-    init(name: String, module: String) {
-        self.init(name: name, module: module, type: nil)
+    init(name: String, module: String, dependencies: [Dependency]) {
+        self.init(name: name, module: module, dependencies: dependencies, type: nil)
     }
 
     var lowercasedName: String {
@@ -24,24 +26,5 @@ struct Module {
 
     var accessLevel: String {
         return type?.accessLevel ?? ""
-    }
-}
-
-func getAllModules() -> [Module] {
-    return types.classes.filter { $0.annotations.keys.contains("Module") }.flatMap { type -> Module in
-        return Module(name: type.name, module: type.module!, type: type)
-    }
-}
-
-func getAllModulesSeparatedByModule() -> [String: [Module]] {
-    return getAllModules().reduce(into: [String: [Module]]()) { dict, element in
-        var factories: [Module]
-        if let arr = dict[element.module] {
-            factories = arr
-        } else {
-            factories = [Module]()
-        }
-        factories.append(element)
-        dict[element.module] = factories
     }
 }
