@@ -29,7 +29,7 @@ struct Component {
     }
 
     var properties: String {
-        return (modules.map { "private let " + $0.lowercasedName + "Factory" + ": " + $0.name + "Factory" }
+        return (modules.map { "private let " + $0.lowercasedName + "Factory" + ": InstanceFactory<" + $0.name + ">" }
             + order.map { "private let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
             .joined(separator: "\n    ")
     }
@@ -38,8 +38,8 @@ struct Component {
         return (modules.map {
             // @formatter:off
             """
-                    \($0.lowercasedName)Factory = \($0.name)Factory(
-                        \($0.lowercasedName): \($0.lowercasedName)
+                    \($0.lowercasedName)Factory = InstanceFactory<\($0.name)>(
+                        instance: \($0.lowercasedName)
                     )
             """
             // @formatter:on
