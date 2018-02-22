@@ -16,7 +16,8 @@ func calculateComponents() -> [Component] {
             return allModules.first { $0.name == includedModuleName } ?? moduleNotFondError(name: includedModuleName)
         }
         let order = calculateDependencyOrder(forTypeNames: requiredTypeNames, andIncludedModules: includedModules)
-        return Component(name: type.name, module: type.module ?? "", order: order, methods: methods, modules: includedModules)
+        let scope = type.annotations["Scope"] as? String
+        return Component(name: type.name, module: type.module ?? "", order: order, methods: methods, modules: includedModules, scope: scope)
     }
 
     let subcomponents = subcomponentGraph.map { entry -> Subcomponent in

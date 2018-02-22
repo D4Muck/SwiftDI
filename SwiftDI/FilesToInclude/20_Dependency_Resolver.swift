@@ -44,7 +44,7 @@ class DependencyResolver {
             //Don't about last three when generating factories
             dependencies: [],
             createdBy: .initializer,
-            trait: .normal
+            trait: .unscoped
         )
 
         return DependencyDeclaration(

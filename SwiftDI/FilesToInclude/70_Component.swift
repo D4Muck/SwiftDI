@@ -11,19 +11,22 @@ class Component {
     let order: [Dependency]
     let methods: [ComponentMethod]
     let modules: [Module]
+    let scope: String?
 
     init(
         name: String,
         module: String,
         order: [Dependency],
         methods: [ComponentMethod],
-        modules: [Module]
+        modules: [Module],
+        scope: String?
     ) {
         self.name = name
         self.module = module
         self.order = order
         self.methods = methods
         self.modules = modules
+        self.scope = scope
     }
 
     var modulesToImport: String {
@@ -114,6 +117,7 @@ class Component {
             order: order,
             methods: methods,
             modules: modules,
+            scope: scope,
             parent: parent
         )
     }
@@ -138,10 +142,11 @@ class Subcomponent: Component {
         order: [Dependency],
         methods: [ComponentMethod],
         modules: [Module],
+        scope: String?,
         parent: Component
     ) {
         self.parent = parent
-        super.init(name: name, module: module, order: order, methods: methods, modules: modules)
+        super.init(name: name, module: module, order: order, methods: methods, modules: modules, scope: scope)
     }
 
     override func getInitializerParameters() -> [String] {

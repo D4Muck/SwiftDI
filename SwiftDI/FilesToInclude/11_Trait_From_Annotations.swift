@@ -4,8 +4,8 @@
 //
 
 func trait(fromAnnotations annotations: [String: Any]) -> Trait {
-    if (annotations.keys.contains("Singleton")) {
-        return .singleton
+    if let scopeName = annotations["Scope"] as? String {
+        return .scoped(scopeName: scopeName)
     }
-    return .normal
+    return .unscoped
 }

@@ -60,16 +60,16 @@ class Factory {
 
     var getMethodContent: String {
         switch dependency.trait {
-        case .normal:
+        case .unscoped:
             return instantiation
-        case .singleton:
+        case .scoped:
             return "        instance = singletonInstance"
         }
     }
 
     var additionalContentInClass: String {
         switch dependency.trait {
-        case .singleton:
+        case .scoped:
             return """
                 private lazy var singletonInstance: \(providedTypeName) = {
                     let \(instantiation.trimmingCharacters(in: .whitespaces))

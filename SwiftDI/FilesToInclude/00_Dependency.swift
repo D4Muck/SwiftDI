@@ -51,5 +51,5 @@ enum CreationType {
 }
 
 enum Trait {
-    case normal, singleton
+    case unscoped, scoped(scopeName: String)
 }

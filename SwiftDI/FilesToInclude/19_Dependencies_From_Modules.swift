@@ -40,7 +40,7 @@ func getDependency(forType type: Type) -> DependencyDeclaration {
             module: type.module ?? "",
             dependencies: [],
             createdBy: .initializer,
-            trait: .normal),
+            trait: .unscoped),
         injectMethod: .initializer,
         isProvider: false,
         declaredTypeName: type.name,
