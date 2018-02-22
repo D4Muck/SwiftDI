@@ -71,20 +71,23 @@ func calculateInstantiationOrder(fromGraph: [String: Node]) -> [Node] {
 func calculateDependencyOrder(forTypeNames requiredTypes: [String], andIncludedModules includedModules: [Module]) -> [Dependency] {
     let allDependencies = getDependenciesFromInjectables() + includedModules.flatMap { $0.dependencies }
 
-    var requiredDependencies = [Dependency]()
     var initialDependencies = allDependencies.filter { requiredTypes.contains($0.typeName) }
+    var requiredDependencies = initialDependencies
 
     func addDependencies(of dependency: Dependency) {
         dependency.dependencies.forEach { dd in
             if let d = allDependencies.first(where: { $0.typeName == dd.dependency.typeName }) {
                 if (!requiredDependencies.contains(where: { $0.typeName == d.typeName })) {
                     requiredDependencies.append(d)
+                    addDependencies(of: d)
                 }
             }
         }
     }
 
-    let graph = buildGraph(fromDependencies: allDependencies)
+    initialDependencies.forEach { addDependencies(of: $0) }
+
+    let graph = buildGraph(fromDependencies: requiredDependencies)
     let order = calculateInstantiationOrder(fromGraph: graph)
 
     let dependencyOrder = order.map { node in allDependencies.first(where: { $0.typeName == node.id }) }.flatMap { $0 }
