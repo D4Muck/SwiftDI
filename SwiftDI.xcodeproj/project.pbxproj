@@ -45,6 +45,7 @@
 		5A66613389013F64D3C10C90 /* 29_Dependencies_From_Injectables.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 29_Dependencies_From_Injectables.swift; sourceTree = "<group>"; };
 		5A66619FC23512431DA34FD3 /* 71_Component_Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 71_Component_Calculations.swift; sourceTree = "<group>"; };
 		5A6662142C94B3D2EEBE41D5 /* 19_Dependencies_From_Modules.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 19_Dependencies_From_Modules.swift; sourceTree = "<group>"; };
+		5A66626CAAF48439EFEBC3F1 /* 45_Modules_To_Import_Calculations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 45_Modules_To_Import_Calculations.swift; sourceTree = "<group>"; };
 		5A666350C01058158D6C36D8 /* Container.swifttemplate */ = {isa = PBXFileReference; lastKnownFileType = file.swifttemplate; path = Container.swifttemplate; sourceTree = "<group>"; };
 		5A66642155D679CF4A6CF12B /* 10_Implementing_Type_Calculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 10_Implementing_Type_Calculator.swift; sourceTree = "<group>"; };
 		5A6664BF52C7C1E727F35BFF /* 11_Trait_From_Annotations.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = 11_Trait_From_Annotations.swift; sourceTree = "<group>"; };
@@ -131,6 +132,7 @@
 				5A666F4A425077BE6EB219ED /* 70_Component.swift */,
 				5A66619FC23512431DA34FD3 /* 71_Component_Calculations.swift */,
 				5A6664BF52C7C1E727F35BFF /* 11_Trait_From_Annotations.swift */,
+				5A66626CAAF48439EFEBC3F1 /* 45_Modules_To_Import_Calculations.swift */,
 			);
 			path = FilesToInclude;
 			sourceTree = "<group>";

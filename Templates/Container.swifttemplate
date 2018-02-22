@@ -2,9 +2,11 @@
 // sourcery:file:<%=module%>-Component
 import SwiftDIRuntime
 
-<% for component in components { -%>
+<% for moduleToImport in getModulesToImportForFile(withModule: module, containingComponents: components) { -%>
+import <%=moduleToImport%>
+<% } -%>
 
-<%=component.modulesToImport%>
+<% for component in components { -%>
 
 <%=component.rendered%>
 

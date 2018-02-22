@@ -7,12 +7,6 @@ func getAllFactories() -> [Factory] {
     return getAllDependencies().map { Factory(dependency: $0) }
 }
 
-func getModulesToImportForFile(withModule module: String, containingFactories factories: [Factory]) -> [String] {
-    return Array(factories.reduce(into: Set<String>()) { set, factory in
-        factory.dependency.dependencies.map { $0.dependency.module }.forEach { set.insert($0) }
-    }).filter { $0.count != 0 && $0 != module }
-}
-
 func getAllFactoriesSeparatedByModule() -> [String: [Factory]] {
     return getAllFactories().reduce(into: [String: [Factory]]()) { dict, element in
         var factories: [Factory]
