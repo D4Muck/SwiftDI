@@ -15,7 +15,7 @@ func calculateComponents() -> [Component] {
             return allModules.first { $0.name == includedModuleName } ?? moduleNotFondError(name: includedModuleName)
         }
         let order = calculateDependencyOrder(forTypeNames: requiredTypeNames, andIncludedModules: includedModules)
-        return Component(name: type.name, module: type.module ?? "", order: order, methods: methods, modules: includedModules, subcomponents: [])
+        return Component(name: type.name, module: type.module ?? "", order: order, methods: methods, modules: includedModules)
     }
 }
 

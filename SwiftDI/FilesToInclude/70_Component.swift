@@ -11,26 +11,19 @@ class Component {
     let order: [Dependency]
     let methods: [ComponentMethod]
     let modules: [Module]
-    let parent: Component?
-
-    func runLet<R>(lel: (Component) -> R) -> R {
-        return lel(self)
-    }
 
     init(
         name: String,
         module: String,
         order: [Dependency],
         methods: [ComponentMethod],
-        modules: [Module],
-        parent: Component?
+        modules: [Module]
     ) {
         self.name = name
         self.module = module
         self.order = order
         self.methods = methods
         self.modules = modules
-        self.parent = parent
     }
 
     var modulesToImport: String {
@@ -41,16 +34,16 @@ class Component {
     }
 
     func getAllModules() -> Array<String> {
-        var allModules = Set(modules.map { $0.module } + order.map { $0.module })
-        if let parent = parent {
-            allModules.insert(parent.module)
-        }
+        let allModules = Set(modules.map { $0.module } + order.map { $0.module })
         return Array(allModules)
     }
 
     var initializerParametersContent: String {
-        let parentComponent = parent?.runLet { ["parentComponent: " + $0.name + "Impl"] } ?? []
-        return (parentComponent + modules.map { $0.lowercasedName + ": " + $0.name }).joined(separator: ",\n        ")
+        return getInitializerParameters().joined(separator: ",\n        ")
+    }
+
+    func getInitializerParameters() -> [String] {
+        return modules.map { $0.lowercasedName + ": " + $0.name }
     }
 
     var properties: String {
@@ -120,5 +113,30 @@ struct ComponentMethod {
     let typeName: String
     var lowercasedTypeName: String {
         return typeName.prefix(1).lowercased() + typeName.dropFirst()
+    }
+}
+
+class Subcomponent: Component {
+
+    let parent: Component
+
+    init(
+        name: String,
+        module: String,
+        order: [Dependency],
+        methods: [ComponentMethod],
+        modules: [Module],
+        parent: Component
+    ) {
+        self.parent = parent
+        super.init(name: name, module: module, order: order, methods: methods, modules: modules)
+    }
+
+    override func getInitializerParameters() -> [String] {
+        return ["parentComponent: " + parent.name + "Impl"] + super.getInitializerParameters()
+    }
+
+    override func getAllModules() -> Array<String> {
+        return super.getAllModules() + [parent.module]
     }
 }
