@@ -29,18 +29,6 @@ class Component {
         self.scope = scope
     }
 
-    var modulesToImport: String {
-        let allModules: [String] = getAllModules()
-        return allModules.filter { s in s.count != 0 && s != module }
-            .map { "i" + "mport " + $0 }
-            .joined(separator: "\n")
-    }
-
-    func getAllModules() -> Array<String> {
-        let allModules = Set(modules.map { $0.module } + order.map { $0.module })
-        return Array(allModules)
-    }
-
     var initializerParametersContent: String {
         return getInitializerParameters().joined(separator: ",\n        ")
     }
@@ -151,9 +139,5 @@ class Subcomponent: Component {
 
     override func getInitializerParameters() -> [String] {
         return ["parentComponent: " + parent.name + "Impl"] + super.getInitializerParameters()
-    }
-
-    override func getAllModules() -> Array<String> {
-        return super.getAllModules() + [parent.module]
     }
 }
