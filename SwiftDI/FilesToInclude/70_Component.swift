@@ -5,27 +5,52 @@
 
 import Foundation
 
-struct Component {
+class Component {
     let name: String
     let module: String
     let order: [Dependency]
     let methods: [ComponentMethod]
     let modules: [Module]
-    let subcomponents: [Component]
+    let parent: Component?
+
+    func runLet<R>(lel: (Component) -> R) -> R {
+        return lel(self)
+    }
+
+    init(
+        name: String,
+        module: String,
+        order: [Dependency],
+        methods: [ComponentMethod],
+        modules: [Module],
+        parent: Component?
+    ) {
+        self.name = name
+        self.module = module
+        self.order = order
+        self.methods = methods
+        self.modules = modules
+        self.parent = parent
+    }
 
     var modulesToImport: String {
-        let allModules: [String] = Array(unionModulesToImport(with: Set()))
+        let allModules: [String] = getAllModules()
         return allModules.filter { s in s.count != 0 && s != module }
             .map { "i" + "mport " + $0 }
             .joined(separator: "\n")
     }
 
-    func unionModulesToImport(with set: Set<String>) -> Set<String> {
-        return set.union(Set(modules.map { $0.module } + order.map { $0.module }))
+    func getAllModules() -> Array<String> {
+        var allModules = Set(modules.map { $0.module } + order.map { $0.module })
+        if let parent = parent {
+            allModules.insert(parent.module)
+        }
+        return Array(allModules)
     }
 
     var initializerParametersContent: String {
-        return modules.map { $0.lowercasedName + ": " + $0.name }.joined(separator: ",\n        ")
+        let parentComponent = parent?.runLet { ["parentComponent: " + $0.name + "Impl"] } ?? []
+        return (parentComponent + modules.map { $0.lowercasedName + ": " + $0.name }).joined(separator: ",\n        ")
     }
 
     var properties: String {
@@ -84,19 +109,9 @@ struct Component {
             }
 
         \(renderedMethods)
-
-
-        \(renderedSubcomponents)
         }
         """
         // @formatter:on
-    }
-
-    var renderedSubcomponents: String {
-        return subcomponents.map {
-            "    " + $0.rendered.split(separator: "\n", omittingEmptySubsequences: false)
-                .joined(separator: "\n    ")
-        }.joined(separator: "\n")
     }
 }
 
