@@ -106,6 +106,18 @@ class Component {
         """
         // @formatter:on
     }
+
+    func toSubcomponent(withParent parent: Component) -> Subcomponent {
+        return Subcomponent(
+            name: name,
+            module: module,
+            order: order,
+            methods: methods,
+            modules: modules,
+            parent: parent
+        )
+    }
+
 }
 
 struct ComponentMethod {

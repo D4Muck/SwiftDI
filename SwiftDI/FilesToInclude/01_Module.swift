@@ -8,16 +8,18 @@ struct Module {
     let module: String
     let type: Type?
     let dependencies: [Dependency]
+    let declaredSubcomponents: [String]
 
-    init(name: String, module: String, dependencies: [Dependency], type: Type?) {
+    init(name: String, module: String, dependencies: [Dependency], type: Type?, declaredSubcomponents: [String]) {
         self.name = name
         self.module = module
         self.type = type
         self.dependencies = dependencies
+        self.declaredSubcomponents = declaredSubcomponents
     }
 
     init(name: String, module: String, dependencies: [Dependency]) {
-        self.init(name: name, module: module, dependencies: dependencies, type: nil)
+        self.init(name: name, module: module, dependencies: dependencies, type: nil, declaredSubcomponents: [])
     }
 
     var lowercasedName: String {

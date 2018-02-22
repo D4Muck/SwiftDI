@@ -17,8 +17,18 @@ func getAllModules() -> [Module] {
                     accessLevel: $0.accessLevel
                 )
             }
-            return Module(name: type.name, module: type.module ?? "", dependencies: providedDependencies, type: type)
+            return Module(
+                name: type.name,
+                module: type.module ?? "",
+                dependencies: providedDependencies,
+                type: type,
+                declaredSubcomponents: getDeclaredSubcomponents(of: type)
+            )
         }
+}
+
+func getDeclaredSubcomponents(of type: Type) -> [String] {
+    return (type.annotations["Subcomponents"] as? String)?.split(separator: ",").map(String.init) ?? []
 }
 
 func getDependency(forType type: Type) -> DependencyDeclaration {
