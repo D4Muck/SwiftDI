@@ -37,9 +37,58 @@ class Component {
         return modules.map { $0.lowercasedName + ": " + $0.name }
     }
 
+    func declaresDependencyAtLevel(dependency: Dependency, currentLevel: Int) -> Int {
+        if case .scoped(let dependencyScopeName) = dependency.trait {
+            if (self.scope == dependencyScopeName) {
+                return currentLevel
+            } else {
+                if (!hasScopeInHierachy(scopeName: dependencyScopeName)) {
+                    fatalError("\(dependency.typeName) has scope \(dependencyScopeName) which is not in component hierachy!")
+                }
+            }
+        }
+
+        let isIncludedInOrder = order.contains(where: { $0.typeName == dependency.typeName })
+
+        if let subcomponent = self as? Subcomponent {
+            let level = subcomponent.parent.declaresDependencyAtLevel(dependency: dependency, currentLevel: currentLevel + 1)
+            if (isIncludedInOrder && level == 0) {
+                return currentLevel
+            } else {
+                return level
+            }
+        }
+
+        if isIncludedInOrder {
+            return currentLevel
+        } else {
+            return 0
+        }
+    }
+
+    func hasScopeInHierachy(scopeName: String) -> Bool {
+        if (scopeName == scope) {
+            return true
+        }
+
+        if let subcomponent = self as? Subcomponent {
+            return subcomponent.parent.hasScopeInHierachy(scopeName: scopeName)
+        }
+
+        return false
+    }
+
+    func hasToDeclareDependecyItsself(dependency: Dependency) -> Bool {
+        return declaresDependencyAtLevel(dependency: dependency, currentLevel: 0) == 0
+    }
+
+    var dependenciesToDeclare: [Dependency] {
+        return order.filter { hasToDeclareDependecyItsself(dependency: $0) }
+    }
+
     var properties: String {
         return (modules.map { "private let " + $0.lowercasedName + "Factory" + ": InstanceFactory<" + $0.name + ">" }
-            + order.map { "private let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
+            + dependenciesToDeclare.map { "fileprivate let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
             .joined(separator: "\n    ")
     }
 
@@ -52,7 +101,7 @@ class Component {
                     )
             """
             // @formatter:on
-        } + order.map {
+        } + dependenciesToDeclare.map {
             // @formatter:off
             """
                     \($0.lowercasedTypeName)Factory = \($0.typeName)Factory(
@@ -75,7 +124,9 @@ class Component {
 
     func parametersForType(_ type: Dependency) -> String {
         return type.dependencies.map {
-            $0.dependency.lowercasedTypeName + "Factory" + ": " + $0.dependency.lowercasedTypeName + "Factory"
+            let declaredAtLevel = declaresDependencyAtLevel(dependency: $0.dependency, currentLevel: 0)
+            let parentAccesser = String(repeating: "parentComponent.", count: declaredAtLevel)
+            return $0.dependency.lowercasedTypeName + "Factory" + ": " + parentAccesser + $0.dependency.lowercasedTypeName + "Factory"
         }.joined(separator: ",\n            ")
     }
 
