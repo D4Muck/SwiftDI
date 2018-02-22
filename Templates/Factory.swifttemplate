@@ -6,7 +6,7 @@ import UIKit
 #endif
 
 <% for moduleToImport in getModulesToImportForFile(withModule: module, containingFactories: factories) { -%>
-import <%=moduleToImport-%>
+import <%=moduleToImport%>
 <% } -%>
 
 <% for factory in factories { -%>
