@@ -41,17 +41,18 @@ func moduleNotFondError<T>(name: String) -> T {
 }
 
 func calculateSubcomponentParents(from modules: [Module]) -> [String: String] {
-    return modules.reduce(into: [String: String]()) { map, module in
-        let components = findComponentTypesThat(haveInstalled: module)
-        if (components.count > 1) {
-            fatalError("\(module.name) is installed multiple times: \(components.map { $0.name }.joined(separator: ", "))!")
-        }
-        if let component = components.first {
-            module.declaredSubcomponents.forEach {
-                map[$0] = component.name
+    return modules.filter { $0.declaredSubcomponents.count > 0 }
+        .reduce(into: [String: String]()) { map, module in
+            let components = findComponentTypesThat(haveInstalled: module)
+            if (components.count > 1) {
+                fatalError("\(module.name) is installed multiple times: \(components.map { $0.name }.joined(separator: ", "))!")
+            }
+            if let component = components.first {
+                module.declaredSubcomponents.forEach {
+                    map[$0] = component.name
+                }
             }
         }
-    }
 }
 
 func findComponentTypesThat(haveInstalled module: Module) -> [Type] {
