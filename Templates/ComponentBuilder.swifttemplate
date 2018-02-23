@@ -1,0 +1,29 @@
+<% for (module, componentBuilders) in getAllComponentBuildersSeparatedByModule() { -%>
+// sourcery:file:<%=module%>-ComponentBuilder
+import SwiftDIRuntime
+
+<% for componentBuilder in componentBuilders { -%>
+
+class <%= componentBuilder.name %> {
+
+    <%= componentBuilder.properties %>
+
+    init(
+        <%= componentBuilder.initParameters %>
+    ) {
+        <%= componentBuilder.initContent %>
+    }
+
+    <%_= componentBuilder.moduleMethods %>
+
+    func build() -> <%= componentBuilder.component.name %> {
+        <%_= componentBuilder.buildMethodGuards %>
+        return <%= componentBuilder.component.name %>Impl(
+            <%= componentBuilder.componentInitializerParameters %>
+        )
+    }
+}
+
+<% } -%>
+// sourcery:end
+<% } -%>

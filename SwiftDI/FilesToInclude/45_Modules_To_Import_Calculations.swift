@@ -15,6 +15,12 @@ func getModulesToImportForFile(withModule module: String, containingComponents c
     })
 }
 
+func getModulesToImportForFile(withModule module: String, containingComponentBuilders componentBuilders: [ComponentBuilder]) -> [String] {
+    return getModulesToImportForFile(withModule: module, containingModules: componentBuilders.flatMap {
+        $0.modules.map { $0.module }
+    })
+}
+
 func getModulesToImportForFile(withModule module: String, containingModules modules: [String]) -> [String] {
     return Set(modules).filter { $0.count != 0 && $0 != module }
 }
