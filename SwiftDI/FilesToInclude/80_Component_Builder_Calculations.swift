@@ -32,3 +32,41 @@ func getAllComponentBuildersSeparatedByModule() -> [String: [ComponentBuilder]] 
         dict[element.module] = factories
     }
 }
+
+func dependenciesForComponentBuilders() -> [Dependency] {
+    return calculateComponentBuilders().map { builder -> Dependency in
+        Dependency(
+            typeName: builder.name + "Impl",
+            type: nil,
+            module: builder.module,
+            dependencies: getDependencyDeclarations(from: builder),
+            createdBy: .initializer,
+            trait: .unscoped,
+            accessLevel: "")
+    }
+}
+
+func getDependencyDeclarations(from builder: ComponentBuilder) -> [DependencyDeclaration] {
+    guard let subcomponent = builder.component as? Subcomponent else {
+        return []
+    }
+    return [
+        DependencyDeclaration(
+            name: "parentComponent",
+            dependency: Dependency(
+                typeName: subcomponent.parent.name + "Impl",
+                type: nil,
+                module: subcomponent.parent.module,
+                dependencies: [],
+                createdBy: .initializer,
+                trait: .unscoped,
+                accessLevel: ""
+            ),
+            injectMethod: .initializer,
+            isProvider: false,
+            declaredTypeName: subcomponent.parent.name + "Impl",
+            declaredType: nil
+        )
+    ]
+
+}
