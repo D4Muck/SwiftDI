@@ -37,7 +37,7 @@ class DependencyResolver {
         let implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)
 
         let dependency = Dependency(
-            typeName: implementingType?.name ?? declaredTypeName,
+            typeName: implementingType?.name ?? cleanedTypeName,
             type: implementingType,
             module: implementingType?.module ?? "",
 
