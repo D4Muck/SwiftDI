@@ -4,7 +4,7 @@ import SwiftDIRuntime
 
 <% for componentBuilder in componentBuilders { -%>
 
-class <%= componentBuilder.name %> {
+class <%= componentBuilder.name %>Impl: <%= componentBuilder.name %> {
 
     <%= componentBuilder.properties %>
 

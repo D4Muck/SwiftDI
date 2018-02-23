@@ -6,6 +6,7 @@
 struct ComponentBuilder {
 
     let component: Component
+    let name: String
 
     var module: String {
         return component.module
@@ -52,7 +53,7 @@ struct ComponentBuilder {
         return modules.map {
             """
                     guard let \($0.lowercasedName) = \($0.lowercasedName) else {
-                        fatal_error(\"\($0.name) not set!\" )
+                        fatalError(\"\($0.name) not set!\")
                     }
             """
         }.joined(separator: "\n")
@@ -63,9 +64,4 @@ struct ComponentBuilder {
         return (parent + modules.map { "\($0.lowercasedName): \($0.lowercasedName)" })
             .joined(separator: ",\n            ")
     }
-
-    var name: String {
-        return component.name + "BuilderImpl"
-    }
-
 }
