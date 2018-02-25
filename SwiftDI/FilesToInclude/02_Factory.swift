@@ -64,6 +64,8 @@ class Factory {
             return instantiation
         case .scoped:
             return "        instance = singletonInstance"
+        case .delegating(let delegatedTypeName):
+            return "        instance = \(dependency.dependencies.first!.dependency.lowercasedTypeName)Factory.get()"
         }
     }
 
