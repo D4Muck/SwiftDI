@@ -8,10 +8,12 @@ import Foundation
 class DependencyResolver {
 
     let types: Types
+    let allTypes: [Type]
     let implementingTypeCalculator: ImplementingTypeCalculator
 
     init(types: Types) {
         self.types = types
+        self.allTypes = types.all + types.protocols
         self.implementingTypeCalculator = ImplementingTypeCalculator(types: types)
     }
 
@@ -31,7 +33,7 @@ class DependencyResolver {
         var cleanedDeclaredType = declaredType
         if (isProvider) {
             cleanedTypeName = extractGenericTypeName(from: cleanedTypeName)
-            cleanedDeclaredType = types.all.filter { $0.name == cleanedTypeName }.first
+            cleanedDeclaredType = allTypes.filter { $0.name == cleanedTypeName }.first
         }
 
         let implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)

@@ -4,7 +4,7 @@
 //
 
 func getAllFactories() -> [Factory] {
-    return (getAllDependencies() + dependenciesForComponentBuilders()).map { Factory(dependency: $0) }
+    return (getAllDependencies()).map { Factory(dependency: $0) }
 }
 
 func getAllFactoriesSeparatedByModule() -> [String: [Factory]] {

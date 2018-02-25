@@ -6,6 +6,37 @@
 func getAllModules() -> [Module] {
     return types.classes.filter { $0.annotations.keys.contains("Module") }
         .map { type -> Module in
+            let subcomponentNames = getDeclaredSubcomponents(of: type)
+            var builderDependencies = [Dependency]()
+            if let parentComponentType = findComponentTypesThat(haveInstalledModuleWithName: type.name).first {
+                builderDependencies = subcomponentNames.map { builderName(forComponent: $0) }.flatMap { $0 }
+                    .map { builderName in
+                        return Dependency(
+                            typeName: builderName + "Impl",
+                            type: nil,
+                            module: parentComponentType.module ?? "",
+                            dependencies: [DependencyDeclaration(
+                                name: "parentComponent",
+                                dependency: Dependency(
+                                    typeName: parentComponentType.name + "Impl",
+                                    type: nil,
+                                    module: "",
+                                    dependencies: [],
+                                    createdBy: .initializer,
+                                    trait: .unscoped
+                                ),
+                                injectMethod: .initializer,
+                                isProvider: false,
+                                declaredTypeName: parentComponentType.name + "Impl",
+                                declaredType: nil
+                            )],
+                            createdBy: .initializer,
+                            trait: .unscoped,
+                            accessLevel: ""
+                        )
+                    }
+            }
+
             let providedDependencies = type.methods.filter { $0.annotations.keys.contains("Provides") }.map {
                 return Dependency(
                     typeName: $0.returnTypeName.name,
@@ -20,7 +51,7 @@ func getAllModules() -> [Module] {
             return Module(
                 name: type.name,
                 module: type.module ?? "",
-                dependencies: providedDependencies,
+                dependencies: (providedDependencies + builderDependencies),
                 type: type,
                 declaredSubcomponents: getDeclaredSubcomponents(of: type)
             )

@@ -5,19 +5,35 @@
 
 func calculateComponentBuilders() -> [ComponentBuilder] {
     let allComponents = calculateComponents()
-    return  types.protocols.filter { $0.annotations.keys.contains("Builder") }
+    return getBuilderTypes()
         .map { (type: Type) -> ComponentBuilder in
-            guard let buildMethod = type.methods.first(where: { $0.shortName == "build" }) else {
-                fatalError("\(type.name) has no build() method")
-            }
-            guard let componentType = buildMethod.returnType else {
-                fatalError("No accessible component type in \(type.name) build() method")
-            }
+            let componentType = getComponentType(for: type)
             guard let component = allComponents.first(where: { $0.name == componentType.name }) else {
                 fatalError("No component with type \(componentType.name) found!")
             }
             return ComponentBuilder(component: component, name: type.name)
         }
+}
+
+func getComponentType(for type: Type) -> Type {
+    guard let buildMethod = type.methods.first(where: { $0.shortName == "build" }) else {
+        fatalError("\(type.name) has no build() method")
+    }
+    guard let componentType = buildMethod.returnType else {
+        fatalError("No accessible component type in \(type.name) build() method")
+    }
+    return componentType
+}
+
+func getBuilderTypes() -> [Type] {
+    return types.protocols.filter { $0.annotations.keys.contains("Builder") }
+}
+
+func builderName(forComponent componentName: String) -> String? {
+    return getBuilderTypes().filter { type in
+        let componentType = getComponentType(for: type)
+        return componentType.name == componentName
+    }.map { $0.name }.first
 }
 
 func getAllComponentBuildersSeparatedByModule() -> [String: [ComponentBuilder]] {
