@@ -7,16 +7,41 @@ import Foundation
 
 let types = Types()
 
+public enum AccessLevel: String {
+    case `internal` = "internal"
+    case `private` = "private"
+    case `fileprivate` = "fileprivate"
+    case `public` = "public"
+    case `open` = "open"
+    case none = ""
+}
+
 struct Type {
-    let module: String?
-    let initializers: [Method]
-    let name: String
+    let module: String? = ""
+    let initializers: [Method] = []
+    let name: String = ""
+    let localName: String = ""
     let annotations = [String: NSObject]()
     let variables = [Variable]()
     let methods = [Method]()
-    let kind: String
+    let kind: String = ""
     let implements = [String: Type]()
-    let accessLevel: String
+    let accessLevel: String = ""
+
+    public init(name: String = "",
+                parent: Type? = nil,
+                accessLevel: AccessLevel = .internal,
+                isExtension: Bool = false,
+                variables: [Variable] = [],
+                methods: [Method] = [],
+                subscripts: [Subscript] = [],
+                inheritedTypes: [String] = [],
+                containedTypes: [Type] = [],
+                typealiases: [Typealias] = [],
+                attributes: [String: Attribute] = [:],
+                annotations: [String: NSObject] = [:],
+                isGeneric: Bool = false) {
+    }
 }
 
 struct Types {
@@ -49,4 +74,13 @@ struct Variable {
     let typeName: TypeName
     let type: Type?
     let annotations = [String: NSObject]()
+}
+
+struct Subscript {
+}
+
+struct Attribute {
+}
+
+struct Typealias {
 }
