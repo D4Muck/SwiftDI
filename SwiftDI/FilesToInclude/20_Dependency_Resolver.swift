@@ -36,7 +36,12 @@ class DependencyResolver {
             cleanedDeclaredType = allTypes.filter { $0.name == cleanedTypeName }.first
         }
 
-        let implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)
+        let implementingType: Type?
+        if isProvider && cleanedDeclaredType?.kind == "protocol" {
+            implementingType = cleanedDeclaredType
+        } else {
+            implementingType = implementingTypeCalculator.getImplementingType(forType: cleanedDeclaredType)
+        }
 
         let dependency = Dependency(
             typeName: implementingType?.name ?? cleanedTypeName,

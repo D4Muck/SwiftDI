@@ -57,9 +57,13 @@ func calculateSubcomponentParents(from modules: [Module]) -> [String: String] {
 }
 
 func findComponentTypesThat(haveInstalled module: Module) -> [Type] {
+    return findComponentTypesThat(haveInstalledModuleWithName: module.name)
+}
+
+func findComponentTypesThat(haveInstalledModuleWithName name: String) -> [Type] {
     return getComponentAndSubcomponentTypes().filter { type in
         let includedModuleNames = (type.annotations["Modules"] as? String)?.split(separator: ",").map(String.init) ?? []
-        return includedModuleNames.contains(module.name)
+        return includedModuleNames.contains(name)
     }
 }
 

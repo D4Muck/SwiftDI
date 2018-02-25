@@ -29,6 +29,10 @@ class Component {
         self.scope = scope
     }
 
+    var lowercasedName: String {
+        return name.prefix(1).lowercased() + name.dropFirst()
+    }
+
     var initializerParametersContent: String {
         return getInitializerParameters().joined(separator: ",\n        ")
     }
@@ -87,13 +91,22 @@ class Component {
     }
 
     var properties: String {
-        return (modules.map { "private let " + $0.lowercasedName + "Factory" + ": InstanceFactory<" + $0.name + ">" }
-            + dependenciesToDeclare.map { "fileprivate let " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory" })
+        let componentFactory = ["private var \(lowercasedName)ImplFactory: InstanceFactory<\(name)Impl>!"]
+        return (componentFactory
+            + modules.map { "private var " + $0.lowercasedName + "Factory" + ": InstanceFactory<" + $0.name + ">!" }
+            + dependenciesToDeclare.map { "fileprivate var " + $0.lowercasedTypeName + "Factory" + ": " + $0.typeName + "Factory!" })
             .joined(separator: "\n    ")
     }
 
     var initializerContent: String {
-        return (modules.map {
+        // @formatter:off
+        let componentFactory = ["""
+                \(lowercasedName)ImplFactory = InstanceFactory<\(name)Impl>(
+                        instance: self
+                    )
+        """]
+        // @formatter:on
+        return (componentFactory + modules.map {
             // @formatter:off
             """
                     \($0.lowercasedName)Factory = InstanceFactory<\($0.name)>(
