@@ -17,6 +17,9 @@ class ImplementingTypeCalculator {
         guard let type = type else { return nil }
         guard type.kind == "protocol" else { return type }
         guard let implementingType = types.classes.filter({ $0.implements.keys.contains(type.name) }).first else {
+            if type.annotations.keys.contains("Builder") {
+                return Type(name: type.name + "Impl", parent: nil, accessLevel: .internal)
+            }
             fatalError("No implementing type found!")
         }
         return implementingType
